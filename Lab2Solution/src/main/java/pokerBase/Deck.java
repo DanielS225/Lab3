@@ -38,7 +38,9 @@ public class Deck {
 	public Deck(int NbrOfJokers, ArrayList<Card> Wilds) {
 
 		// TODO Lab3 - Implement joker and wild constructor
-		//for (Card card : Wilds)
+		for (Card card : Wilds) {
+			//yo
+		}
 	}
 
 	public ArrayList<Card> getDeckCards() {
