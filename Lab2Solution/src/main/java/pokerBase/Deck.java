@@ -28,6 +28,7 @@ public class Deck {
 	public Deck(int NbrOfJokers) {
 
 		//TODO Lab3 - Implement joker constructor
+		this();
 	}
 	
 	
