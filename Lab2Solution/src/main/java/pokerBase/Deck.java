@@ -39,7 +39,7 @@ public class Deck {
 
 		// TODO Lab3 - Implement joker and wild constructor
 		for (Card card : Wilds) {
-			//c'mon
+			//c'mon uu
 		}
 	}
 
