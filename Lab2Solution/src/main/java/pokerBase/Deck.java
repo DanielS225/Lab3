@@ -41,6 +41,7 @@ public class Deck {
 	public Deck(int NbrOfJokers, ArrayList<Card> Wilds) {
 
 		// TODO Lab3 - Implement joker and wild constructor
+
 		this(NbrOfJokers);
 		for (Card a : deckCards) {// for each card in the deck
 			for (Card b : Wilds) {
@@ -48,6 +49,9 @@ public class Deck {
 					a.setbWild(true);// set as wild
 				}
 			}
+
+		for (Card card : Wilds) {
+			
 		}
 	}
 
