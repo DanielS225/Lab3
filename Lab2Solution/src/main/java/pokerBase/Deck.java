@@ -9,8 +9,10 @@ import pokerEnums.eSuit;
 public class Deck {
 
 	private ArrayList<Card> deckCards = new ArrayList<Card>();
+	private int NbrOfJokers;
 
 	public Deck() {
+		NbrOfJokers = 0;
 		int iCardNbr = 1;
 		for (eSuit eSuit : eSuit.values()) {
 			for (eRank eRank : eRank.values()) {
@@ -29,6 +31,7 @@ public class Deck {
 
 		// TODO Lab3 - Implement joker constructor
 		this();
+		this.NbrOfJokers = NbrOfJokers;
 		int i = 1;
 		while (i <= NbrOfJokers) {
 			deckCards.add(new Card(true, (deckCards.size() + i)));
@@ -38,15 +41,32 @@ public class Deck {
 	public Deck(int NbrOfJokers, ArrayList<Card> Wilds) {
 
 		// TODO Lab3 - Implement joker and wild constructor
-		//for (Card card : Wilds)
+		this(NbrOfJokers);
+		for (Card a : deckCards) {// for each card in the deck
+			for (Card b : Wilds) {
+				if (a.equals(b)) {// if it is supposed to be wild
+					a.setbWild(true);// set as wild
+				}
+			}
+		}
 	}
 
 	public ArrayList<Card> getDeckCards() {
 		return deckCards;
 	}
-	
-	public Card Draw() {
+
+	public Object Draw() {
 		// TODO Lab 3 - Implement exception handling for overdraw
-		return deckCards.remove(0);
+
+		Object r;
+		try {
+			r = deckCards.remove(0);
+		} catch (NullPointerException e) {
+			System.out.println("Deck is empty");
+			r = new Object();// is this a good handle? (would need to check
+								// return type when card is drawn) what happens
+								// when a deck is empty
+		}
+		return r;
 	}
 }

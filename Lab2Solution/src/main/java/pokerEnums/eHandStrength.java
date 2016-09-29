@@ -1,7 +1,7 @@
 package pokerEnums;
 
 public enum eHandStrength {
-
+	//TODO handle jokers
 	RoyalFlush(100, "isHandRoyalFlush") {
 		public String toString() {
 			return "Royal Flush";
