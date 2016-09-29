@@ -16,7 +16,7 @@ public class Deck {
 		int iCardNbr = 1;
 		for (eSuit eSuit : eSuit.values()) {
 			for (eRank eRank : eRank.values()) {
-				// TODO Lab3 - Fix this
+				// TODO Lab3 - Fix this (how?)
 				// if (eSuit != eSuit.JOKER) <-- you'll thank me :)
 				// {
 				deckCards.add(new Card(eSuit, eRank, iCardNbr++));
