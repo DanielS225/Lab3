@@ -50,8 +50,9 @@ public class Deck {
 				}
 			}
 
-		for (Card card : Wilds) {
-			
+			for (Card card : Wilds) {
+				card.setbWild(true);
+			}
 		}
 	}
 
@@ -61,16 +62,6 @@ public class Deck {
 
 	public Object Draw() {
 		// TODO Lab 3 - Implement exception handling for overdraw
-
-		Object r;
-		try {
-			r = deckCards.remove(0);
-		} catch (NullPointerException e) {
-			System.out.println("Deck is empty");
-			r = new Object();// is this a good handle? (would need to check
-								// return type when card is drawn) what happens
-								// when a deck is empty
-		}
-		return r;
+		return deckCards.remove(0);
 	}
 }
