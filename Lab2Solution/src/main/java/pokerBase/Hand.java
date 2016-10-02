@@ -53,7 +53,7 @@ public class Hand {
 	 */
 	static Hand EvaluateHand(Hand h) throws Exception {
 
-		// Sort the colleciton (by hand rank)
+		// Sort the collection (by hand rank)
 		Collections.sort(h.getCardsInHand());
 
 		// TODO - Lab 3 Here's the code to throw the HandException
@@ -115,6 +115,7 @@ public class Hand {
 	}
 
 	public static Hand PickBestHand(ArrayList<Hand> Hands) /*throws exHand*/ {
+		//TODO implement this shit
 		Hand best = new Hand();
 		Hand second;
 		HandScore hs;
