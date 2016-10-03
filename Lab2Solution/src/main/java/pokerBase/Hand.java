@@ -154,6 +154,7 @@ public class Hand {
 							n.AddToCardsInHand(add.Draw());// add one card to the new hand from the full deck
 							Hands.add(n);// resulting in 52 new hands per wild
 						}
+						Hands.remove(1);
 					} else if (c.equals(h.getCardsInHand().get(eCardNo.FifthCard.getCardNo()))) {
 						done = true;
 					}
