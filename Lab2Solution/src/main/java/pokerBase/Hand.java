@@ -83,8 +83,7 @@ public class Hand {
 					Object o = meth.invoke(null, new Object[] { hEval, hs });
 
 					// If o = true, that means the hand evaluated- skip the rest
-					// of
-					// the evaluations
+					// of the evaluations
 					if ((Boolean) o) {
 						break;
 					}
@@ -114,24 +113,41 @@ public class Hand {
 		return h;
 	}
 
-	public static Hand PickBestHand(ArrayList<Hand> Hands) /*throws exHand*/ {
-		//TODO implement this shit
+	public static Hand PickBestHand(ArrayList<Hand> Hands) /* throws exHand */ {
+		// TODO implement this shit
 		Hand best = new Hand();
 		Hand second;
 		HandScore hs;
 		for (Hand h : Hands) {
-			
+
 		}
-		
+
 		return best;
 	}
-	
-	private static ArrayList<Hand> ExplodeHands(ArrayList<Hand> Hands) {
-		// TODO - Lab3 Implement this
-		return null;
+
+	private static ArrayList<Hand> ExplodeHands(ArrayList<Hand> Hands) {// TODO hopefully this works
+		for (Hand h : Hands) {// for each hand passed to method
+			for (Card c : h.getCardsInHand()) {// go through each card in the hand
+				if (c.isbWild() == true) {// searching for wilds
+					Deck add = new Deck();// create a new of 52 cards, no wilds
+					while (add.isDeckEmpty() == false) {// for each of the 52 cards
+						Hand n = new Hand();// make a new hand
+						for (Card cc : h.getCardsInHand()) {// for each card in the original hand
+							if (cc != c) {// if the card is not wild
+								n.AddToCardsInHand(cc);// clone it to the new hand (n)
+							}
+						}
+						n.AddToCardsInHand(add.Draw());// add one card to the new hand from the full deck
+						Hands.add(n);// resulting in 52 new hands per wild
+					}
+				}
+			}
+		}
+		return Hands;
 	}
-	
-	/**isHandRoyalFlush
+
+	/**
+	 * isHandRoyalFlush
 	 * 
 	 * @param h
 	 * @param hs
@@ -181,12 +197,15 @@ public class Hand {
 	 */
 	public static boolean isHandFiveOfAKind(Hand h, HandScore hs) {
 		boolean isFiveOfAKind = false;
-		if ((h.getCardsInHand().get(eCardNo.FirstCard.getCardNo()).geteRank() == h.getCardsInHand().get(eCardNo.SecondCard.getCardNo()).
-				geteRank()) && (h.getCardsInHand().get(eCardNo.FirstCard.getCardNo()).geteRank() == h.getCardsInHand()
-				.get(eCardNo.ThirdCard.getCardNo()).geteRank()) && (h.getCardsInHand().get(eCardNo.FirstCard.getCardNo())
-						.geteRank() == h.getCardsInHand().get(eCardNo.FourthCard.getCardNo()).geteRank()) && (h.getCardsInHand()
-								.get(eCardNo.FirstCard.getCardNo()).geteRank() == h.getCardsInHand().get(eCardNo.FifthCard.getCardNo()).geteRank())) {
-			
+		if ((h.getCardsInHand().get(eCardNo.FirstCard.getCardNo()).geteRank() == h.getCardsInHand()
+				.get(eCardNo.SecondCard.getCardNo()).geteRank())
+				&& (h.getCardsInHand().get(eCardNo.FirstCard.getCardNo()).geteRank() == h.getCardsInHand()
+						.get(eCardNo.ThirdCard.getCardNo()).geteRank())
+				&& (h.getCardsInHand().get(eCardNo.FirstCard.getCardNo()).geteRank() == h.getCardsInHand()
+						.get(eCardNo.FourthCard.getCardNo()).geteRank())
+				&& (h.getCardsInHand().get(eCardNo.FirstCard.getCardNo()).geteRank() == h.getCardsInHand()
+						.get(eCardNo.FifthCard.getCardNo()).geteRank())) {
+
 			hs.setHandStrength(eHandStrength.FiveOfAKind.getHandStrength());
 			hs.setHiHand(h.getCardsInHand().get(eCardNo.FirstCard.getCardNo()).geteRank().getiRankNbr());
 			hs.setLoHand(0);
@@ -241,7 +260,6 @@ public class Hand {
 	public static boolean isHandFullHouse(Hand h, HandScore hs) {
 
 		boolean isFullHouse = false;
-		ArrayList<Card> kickers = new ArrayList<Card>();
 		if ((h.getCardsInHand().get(eCardNo.FirstCard.getCardNo()).geteRank() == h.getCardsInHand()
 				.get(eCardNo.ThirdCard.getCardNo()).geteRank())
 				&& (h.getCardsInHand().get(eCardNo.FourthCard.getCardNo()).geteRank() == h.getCardsInHand()

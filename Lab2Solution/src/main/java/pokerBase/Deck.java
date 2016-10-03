@@ -60,8 +60,15 @@ public class Deck {
 		return deckCards;
 	}
 
-	public Object Draw() {
+	public Card Draw() {
 		// TODO Lab 3 - Implement exception handling for overdraw
 		return deckCards.remove(0);
+	}
+
+	public boolean isDeckEmpty() {
+		if (deckCards.size() != 0)
+			return true;
+		else
+			return false;
 	}
 }
