@@ -109,9 +109,6 @@ public class Hand {
 				e.printStackTrace();
 			}
 		}
-
-		// TODO - Lab 3. ExplodedHands has a bunch of hands.
-		// Either 1, 52, 2
 		return h;
 	}
 
@@ -138,31 +135,33 @@ public class Hand {
 			throw new exHand();
 	}
 
-	private static ArrayList<Hand> ExplodeHands(ArrayList<Hand> Hands) {// TODO
-																		// hopefully
-																		// this
-																		// works
-		for (Hand h : Hands) {// for each hand passed to method
-			for (Card c : h.getCardsInHand()) {// go through each card in the
-												// hand
-				if (c.isbWild() == true) {// searching for wilds
-					Deck add = new Deck();// create a new of 52 cards, no wilds
-					while (add.isDeckEmpty() == false) {// for each of the 52
-														// cards
-						Hand n = new Hand();// make a new hand
-						for (Card cc : h.getCardsInHand()) {// for each card in
-															// the original hand
-							if (cc != c) {// if the card is not wild
-								n.AddToCardsInHand(cc);// clone it to the new
-														// hand (n)
+	private static ArrayList<Hand> ExplodeHands(ArrayList<Hand> Hands) {// TODO hopefully this works
+		boolean done = false;
+		boolean added = false;
+		while (done == false) {
+			for (Hand h : Hands) {// for each hand passed to method
+				for (Card c : h.getCardsInHand()) {// go through each card in the hand
+					if (c.isbWild() == true) {// searching for wilds
+						added = true;
+						Deck add = new Deck();// create a new of 52 cards, no wilds
+						while (add.isDeckEmpty() == false) {// for each of the 52 cards
+							Hand n = new Hand();// make a new hand
+							for (Card cc : h.getCardsInHand()) {// for each card in the original hand
+								if (cc != c) {// if the card is not wild
+									n.AddToCardsInHand(cc);// clone it to the new hand (n)
+								}
 							}
+							n.AddToCardsInHand(add.Draw());// add one card to the new hand from the full deck
+							Hands.add(n);// resulting in 52 new hands per wild
 						}
-						n.AddToCardsInHand(add.Draw());// add one card to the
-														// new hand from the
-														// full deck
-						Hands.add(n);// resulting in 52 new hands per wild
+					} else if (c.equals(h.getCardsInHand().get(eCardNo.FifthCard.getCardNo()))) {
+						done = true;
 					}
+					if (added == true)
+						break;
 				}
+				if (added == true)
+					break;
 			}
 		}
 		return Hands;
