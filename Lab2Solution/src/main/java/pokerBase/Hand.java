@@ -5,6 +5,8 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import pokerExceptions.exHand;
+
 import pokerEnums.eCardNo;
 import pokerEnums.eHandStrength;
 import pokerEnums.eRank;
@@ -113,31 +115,51 @@ public class Hand {
 		return h;
 	}
 
-	public static Hand PickBestHand(ArrayList<Hand> Hands) /* throws exHand */ {
+	public static Hand PickBestHand(ArrayList<Hand> Hands) throws exHand {
 		// TODO implement this shit
 		Hand best = new Hand();
-		Hand second;
+		Hand second = new Hand();
 		HandScore hs;
 		for (Hand h : Hands) {
-
+			try {
+				Hand.EvaluateHand(h);
+				if (h.getHs().getHandStrength() > best.getHs().getHandStrength()) {
+					best = h;
+				} else if (h.getHs().getHandStrength() == best.getHs().getHandStrength()) {
+					second = h;
+				}
+			} catch (Exception e) {
+				// TODO - catch Exception
+			}
 		}
-
-		return best;
+		if (best.getHs().getHandStrength() > second.getHs().getHandStrength()) {
+			return best;
+		} else
+			throw new exHand();
 	}
 
-	private static ArrayList<Hand> ExplodeHands(ArrayList<Hand> Hands) {// TODO hopefully this works
+	private static ArrayList<Hand> ExplodeHands(ArrayList<Hand> Hands) {// TODO
+																		// hopefully
+																		// this
+																		// works
 		for (Hand h : Hands) {// for each hand passed to method
-			for (Card c : h.getCardsInHand()) {// go through each card in the hand
+			for (Card c : h.getCardsInHand()) {// go through each card in the
+												// hand
 				if (c.isbWild() == true) {// searching for wilds
 					Deck add = new Deck();// create a new of 52 cards, no wilds
-					while (add.isDeckEmpty() == false) {// for each of the 52 cards
+					while (add.isDeckEmpty() == false) {// for each of the 52
+														// cards
 						Hand n = new Hand();// make a new hand
-						for (Card cc : h.getCardsInHand()) {// for each card in the original hand
+						for (Card cc : h.getCardsInHand()) {// for each card in
+															// the original hand
 							if (cc != c) {// if the card is not wild
-								n.AddToCardsInHand(cc);// clone it to the new hand (n)
+								n.AddToCardsInHand(cc);// clone it to the new
+														// hand (n)
 							}
 						}
-						n.AddToCardsInHand(add.Draw());// add one card to the new hand from the full deck
+						n.AddToCardsInHand(add.Draw());// add one card to the
+														// new hand from the
+														// full deck
 						Hands.add(n);// resulting in 52 new hands per wild
 					}
 				}
