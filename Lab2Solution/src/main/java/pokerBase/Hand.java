@@ -133,7 +133,7 @@ public class Hand {
 		} else
 			throw new exHand();
 	}
-
+	
 	private static ArrayList<Hand> ExplodeHands(ArrayList<Hand> Hands) {// TODO hopefully this works
 		boolean done = false;
 		boolean added = false;
@@ -141,28 +141,32 @@ public class Hand {
 			for (Hand h : Hands) {// for each hand passed to method
 				for (Card c : h.getCardsInHand()) {// go through each card in the hand
 					if (c.isbWild() == true) {// searching for wilds
-						added = true;
-						Deck add = new Deck();// create a new of 52 cards, no wilds
-						while (add.isDeckEmpty() == false) {// for each of the 52 cards
-							Hand n = new Hand();// make a new hand
-							for (Card cc : h.getCardsInHand()) {// for each card in the original hand
-								if (cc != c) {// if the card is not wild
-									n.AddToCardsInHand(cc);// clone it to the new hand (n)
-								}
-							}
-							n.AddToCardsInHand(add.Draw());// add one card to the new hand from the full deck
-							Hands.add(n);// resulting in 52 new hands per wild
+						ArrayList<Hand> add = substitute(h,c);
+						for (Hand addHand: add) {
+							Hands.add(addHand);
 						}
-						Hands.remove(1);
-					} else if (c.equals(h.getCardsInHand().get(eCardNo.FifthCard.getCardNo()))) {
+						Hands.remove(h);
+					} else if (c == h.getCardsInHand().get(eCardNo.FifthCard.getCardNo())) {
 						done = true;
 					}
-					if (added == true)
-						break;
 				}
-				if (added == true)
-					break;
 			}
+		}
+		return Hands;
+	}
+	
+	public static ArrayList<Hand> substitute(Hand h, Card c) {
+		ArrayList<Hand> Hands = new ArrayList<Hand>();// return variable
+		Deck add = new Deck();// new Deck, ensures creation of 52 new hands
+		for (Card deckCard: add.getDeckCards()) {// one new hand per card in 52 card deck
+			Hand newHand = new Hand();// new hand for each card
+			newHand.AddToCardsInHand(deckCard);// adds the current card from the deck to the new hand
+			for (Card handCard: h.getCardsInHand()) {// iterates through original hand
+				if (!handCard.equals(c)) {// adds all cards that are NOT the CURRENT wild/joker
+					newHand.AddToCardsInHand(handCard);
+				}
+			}
+			Hands.add(newHand);// adds the newly created hand to the return arrayList
 		}
 		return Hands;
 	}
