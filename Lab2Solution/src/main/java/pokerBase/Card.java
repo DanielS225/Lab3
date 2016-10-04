@@ -30,7 +30,7 @@ public class Card implements Comparable {
 		this.eRank = eRank.JOKER;
 		this.iCardNbr = iCardNbr;
 		this.bWild = true;
-		
+
 	}
 
 	public eSuit geteSuit() {

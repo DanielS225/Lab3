@@ -17,10 +17,9 @@ public class Deck {
 		for (eSuit eSuit : eSuit.values()) {
 			for (eRank eRank : eRank.values()) {
 				// TODO Lab3 - Fix this (how?)
-				// if (eSuit != eSuit.JOKER) <-- you'll thank me :)
-				// {
-				deckCards.add(new Card(eSuit, eRank, iCardNbr++));
-				// }
+				if ((eSuit != eSuit.JOKER) && (eRank != eRank.JOKER)) {
+					deckCards.add(new Card(eSuit, eRank, iCardNbr++));
+				}
 			}
 
 		}
@@ -28,32 +27,24 @@ public class Deck {
 	}
 
 	public Deck(int NbrOfJokers) {
-
-		// TODO Lab3 - Implement joker constructor
 		this();
 		this.NbrOfJokers = NbrOfJokers;
-		int i = 1;
-		while (i <= NbrOfJokers) {
+		for (int i = 0; i < NbrOfJokers; i++) {
 			deckCards.add(new Card(true, (deckCards.size() + i)));
 		}
+		Collections.shuffle(deckCards);
 	}
 
 	public Deck(int NbrOfJokers, ArrayList<Card> Wilds) {
-
-		// TODO Lab3 - Implement joker and wild constructor
-
 		this(NbrOfJokers);
 		for (Card a : deckCards) {// for each card in the deck
 			for (Card b : Wilds) {
-				if (a.equals(b)) {// if it is supposed to be wild
+				if ((a.geteRank() == b.geteRank()) && (a.geteSuit() == b.geteSuit())) {// if it is supposed to be wild
 					a.setbWild(true);// set as wild
 				}
 			}
-
-			for (Card card : Wilds) {
-				card.setbWild(true);
-			}
 		}
+		Collections.shuffle(deckCards);
 	}
 
 	public ArrayList<Card> getDeckCards() {

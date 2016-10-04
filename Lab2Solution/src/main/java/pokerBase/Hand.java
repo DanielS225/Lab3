@@ -116,7 +116,6 @@ public class Hand {
 		// TODO implement this shit
 		Hand best = new Hand();
 		Hand second = new Hand();
-		HandScore hs;
 		for (Hand h : Hands) {
 			try {
 				Hand.EvaluateHand(h);
@@ -126,7 +125,7 @@ public class Hand {
 					second = h;
 				}
 			} catch (Exception e) {
-				// TODO - catch Exception
+				System.out.println("Exception thrown " + e);
 			}
 		}
 		if (best.getHs().getHandStrength() > second.getHs().getHandStrength()) {
