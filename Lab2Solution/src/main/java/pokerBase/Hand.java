@@ -4,6 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 
 import pokerExceptions.exHand;
 
@@ -12,7 +13,7 @@ import pokerEnums.eHandStrength;
 import pokerEnums.eRank;
 import pokerEnums.eSuit;
 
-public class Hand {
+public class Hand implements Comparable {
 
 	private ArrayList<Card> CardsInHand = new ArrayList<Card>();
 	private boolean bScored;
@@ -133,16 +134,20 @@ public class Hand {
 		} else
 			throw new exHand();
 	}
-	
-	private static ArrayList<Hand> ExplodeHands(ArrayList<Hand> Hands) {// TODO hopefully this works
+
+	private static ArrayList<Hand> ExplodeHands(ArrayList<Hand> Hands) {// TODO
+																		// hopefully
+																		// this
+																		// works
 		boolean done = false;
 		boolean added = false;
 		while (done == false) {
 			for (Hand h : Hands) {// for each hand passed to method
-				for (Card c : h.getCardsInHand()) {// go through each card in the hand
+				for (Card c : h.getCardsInHand()) {// go through each card in
+													// the hand
 					if (c.isbWild() == true) {// searching for wilds
-						ArrayList<Hand> add = substitute(h,c);
-						for (Hand addHand: add) {
+						ArrayList<Hand> add = substitute(h, c);
+						for (Hand addHand : add) {
 							Hands.add(addHand);
 						}
 						Hands.remove(h);
@@ -154,19 +159,24 @@ public class Hand {
 		}
 		return Hands;
 	}
-	
+
 	public static ArrayList<Hand> substitute(Hand h, Card c) {
 		ArrayList<Hand> Hands = new ArrayList<Hand>();// return variable
 		Deck add = new Deck();// new Deck, ensures creation of 52 new hands
-		for (Card deckCard: add.getDeckCards()) {// one new hand per card in 52 card deck
+		for (Card deckCard : add.getDeckCards()) {// one new hand per card in 52
+													// card deck
 			Hand newHand = new Hand();// new hand for each card
-			newHand.AddToCardsInHand(deckCard);// adds the current card from the deck to the new hand
-			for (Card handCard: h.getCardsInHand()) {// iterates through original hand
-				if (!handCard.equals(c)) {// adds all cards that are NOT the CURRENT wild/joker
+			newHand.AddToCardsInHand(deckCard);// adds the current card from the
+												// deck to the new hand
+			for (Card handCard : h.getCardsInHand()) {// iterates through
+														// original hand
+				if (!handCard.equals(c)) {// adds all cards that are NOT the
+											// CURRENT wild/joker
 					newHand.AddToCardsInHand(handCard);
 				}
 			}
-			Hands.add(newHand);// adds the newly created hand to the return arrayList
+			Hands.add(newHand);// adds the newly created hand to the return
+								// arrayList
 		}
 		return Hands;
 	}
@@ -524,5 +534,76 @@ public class Hand {
 		kickers.add(h.getCardsInHand().get(eCardNo.FifthCard.getCardNo()));
 		hs.setKickers(kickers);
 		return true;
+	}
+
+	public static Comparator<Hand> HandRank = new Comparator<Hand>() {
+
+		public int compare(Hand h1, Hand h2) {
+
+			int result = 0;
+
+			result = h2.getHs().getHandStrength() - h1.getHs().getHandStrength();
+
+			if (result != 0) {
+				return result;
+			}
+
+			result = h2.getHs().getHiHand() - h1.getHs().getHiHand();
+			if (result != 0) {
+				return result;
+			}
+
+			result = h2.getHs().getLoHand() - h1.getHs().getLoHand();
+			if (result != 0) {
+				return result;
+			}
+
+			if (h2.getHs().getKickers().size() > 0) {
+				if (h1.getHs().getKickers().size() > 0) {
+					result = h2.getHs().getKickers().get(eCardNo.FirstCard.getCardNo()).geteRank().getiRankNbr()
+							- h1.getHs().getKickers().get(eCardNo.FirstCard.getCardNo()).geteRank().getiRankNbr();
+				}
+				if (result != 0) {
+					return result;
+				}
+			}
+
+			if (h2.getHs().getKickers().size() > 1) {
+				if (h1.getHs().getKickers().size() > 1) {
+					result = h2.getHs().getKickers().get(eCardNo.SecondCard.getCardNo()).geteRank().getiRankNbr()
+							- h1.getHs().getKickers().get(eCardNo.SecondCard.getCardNo()).geteRank().getiRankNbr();
+				}
+				if (result != 0) {
+					return result;
+				}
+			}
+
+			if (h2.getHs().getKickers().size() > 2) {
+				if (h1.getHs().getKickers().size() > 2) {
+					result = h2.getHs().getKickers().get(eCardNo.ThirdCard.getCardNo()).geteRank().getiRankNbr()
+							- h1.getHs().getKickers().get(eCardNo.ThirdCard.getCardNo()).geteRank().getiRankNbr();
+				}
+				if (result != 0) {
+					return result;
+				}
+			}
+
+			if (h2.getHs().getKickers().size() > 3) {
+				if (h1.getHs().getKickers().size() > 3) {
+					result = h2.getHs().getKickers().get(eCardNo.FourthCard.getCardNo()).geteRank().getiRankNbr()
+							- h1.getHs().getKickers().get(eCardNo.FourthCard.getCardNo()).geteRank().getiRankNbr();
+				}
+				if (result != 0) {
+					return result;
+				}
+			}
+			return 0;
+		}
+	};
+
+	public int compareTo(Object o) {
+		Hand h = (Hand) o;
+		return h.compareTo(this);
+
 	}
 }
