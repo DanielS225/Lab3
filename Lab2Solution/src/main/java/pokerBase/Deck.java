@@ -62,4 +62,8 @@ public class Deck {
 		else
 			return false;
 	}
+	
+	public int getDeckSize() {
+		return deckCards.size();
+	}
 }

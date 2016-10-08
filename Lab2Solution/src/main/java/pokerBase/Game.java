@@ -6,6 +6,8 @@ import java.util.ArrayList;
 public class Game {
 
 	private UUID GameID;
+	private UUID TableID;
+	ArrayList<Player> GamePlayers = new ArrayList<Player>();
 
 	public UUID getGameID() {
 		return GameID;
@@ -23,10 +25,10 @@ public class Game {
 		GamePlayers = gamePlayers;
 	}
 
-	private ArrayList<Player> GamePlayers = new ArrayList<Player>();
-
-	public Game AddPlayerToGame(Table t1, Player p1) {
-		
+	public void AddPlayerToGame(Table t1, Player p1) {
+		ArrayList<Player> ps = t1.getPlayers();
+		ps.add(p1);
+		t1.setPlayers(ps);
 	}
 
 }

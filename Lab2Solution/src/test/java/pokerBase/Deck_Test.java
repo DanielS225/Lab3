@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+
 public class Deck_Test {
 
 	@BeforeClass
@@ -27,7 +28,31 @@ public class Deck_Test {
 	}
 
 	@Test
-	public void DeckBuildTest()
+	public void TestFullDeck() {
+		int iDeckSize = 52;
+		Deck d = new Deck();
+		assertTrue(d.getDeckSize() == iDeckSize);
+	}
+	
+	@Test
+	public void DrawOne() {
+		int iDeckSize = 52;
+		int iDeckSizeDrawOne = 51;
+		
+		Deck d = new Deck();
+		assertTrue(d.getDeckSize() == iDeckSize);
+		d.Draw();
+		
+		assertTrue(d.getDeckSize() == iDeckSizeDrawOne);
+	}
+	
+	@Test
+	public void Test2JokerDeck() {
+		int JokerDeck = 54;
+		Deck d = new Deck(2);
+		assertTrue(d.getDeckSize() == JokerDeck);
+	}
+	
 	{
 		fail("Implement Me");
 	}
