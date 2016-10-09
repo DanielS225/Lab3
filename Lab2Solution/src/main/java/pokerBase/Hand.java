@@ -18,6 +18,7 @@ public class Hand implements Comparable {
 	private ArrayList<Card> CardsInHand = new ArrayList<Card>();
 	private boolean bScored;
 	private HandScore hs;
+	private boolean bWild;
 
 	private ArrayList<Card> getCardsInHand() {
 		return CardsInHand;
@@ -33,6 +34,14 @@ public class Hand implements Comparable {
 
 	public HandScore getHs() {
 		return hs;
+	}
+	
+	public void setbWild(boolean bWild) {
+		this.bWild = bWild;
+	}
+	
+	public boolean getbWild() {
+		return this.bWild;
 	}
 
 	public void EvaulateHand() {
@@ -135,10 +144,7 @@ public class Hand implements Comparable {
 			throw new exHand();
 	}
 
-	private static ArrayList<Hand> ExplodeHands(ArrayList<Hand> Hands) {// TODO
-																		// hopefully
-																		// this
-																		// works
+	private static ArrayList<Hand> ExplodeHands(ArrayList<Hand> Hands) {
 		boolean done = false;
 		boolean added = false;
 		while (done == false) {
@@ -146,6 +152,7 @@ public class Hand implements Comparable {
 				for (Card c : h.getCardsInHand()) {// go through each card in
 													// the hand
 					if (c.isbWild() == true) {// searching for wilds
+						h.setbWild(true);
 						ArrayList<Hand> add = substitute(h, c);
 						for (Hand addHand : add) {
 							Hands.add(addHand);
@@ -195,7 +202,11 @@ public class Hand implements Comparable {
 		if ((isHandFlush(h.getCardsInHand())) && (isStraight(h.getCardsInHand(), c))) {
 			if (c.geteRank() == eRank.ACE) {
 				isRoyalFlush = true;
-				hs.setHandStrength(eHandStrength.RoyalFlush.getHandStrength());
+				if (h.getbWild() == false) {
+					hs.setHandStrength(eHandStrength.NaturalRoyalFlush.getHandStrength());
+				} else {
+					hs.setHandStrength(eHandStrength.RoyalFlush.getHandStrength());
+				}
 				hs.setHiHand(h.getCardsInHand().get(eCardNo.FirstCard.getCardNo()).geteRank().getiRankNbr());
 				hs.setLoHand(0);
 			}

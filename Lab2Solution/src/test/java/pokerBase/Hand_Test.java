@@ -52,6 +52,7 @@ public class Hand_Test {
 		}
 	
 		assertTrue(h.getHs().getHandStrength() == eHandStrength.RoyalFlush.getHandStrength());
+		h.getHs();
 		assertTrue(h.getHs().getHiHand() == eRank.ACE.getiRankNbr());
 		
 	}
@@ -219,6 +220,7 @@ public class Hand_Test {
 		h.EvaulateHand();
 		
 		assertTrue(h.getHs().getHandStrength() == eHandStrength.Flush.getHandStrength());
+		System.out.println(h.getHs().getHandStrength());
 		assertTrue(h.getHs().getHiHand() == eRank.ACE.getiRankNbr());
 		assertTrue(h.getHs().getLoHand() == 0);
 		assertTrue(h.getHs().getKickers() == null);
